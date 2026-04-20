@@ -1,18 +1,13 @@
-"""Inference request/response schemas."""
-
-from dataclasses import dataclass
-from typing import Any
+from typing import List
+from pydantic import BaseModel, Field
 
 
-@dataclass
-class InferenceRequest:
-    """Input payload for inference."""
-
-    prompt: str
+class EmbeddingRequest(BaseModel):
+    text: str = Field(..., min_length=1, description="Input text to embed")
 
 
-@dataclass
-class InferenceResponse:
-    """Output payload for inference."""
-
-    result: Any
+class EmbeddingResponse(BaseModel):
+    embedding: List[float]
+    dimension: int
+    model_name: str
+    inference_time_ms: float
