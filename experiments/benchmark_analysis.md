@@ -121,3 +121,45 @@ The bottleneck was request scheduling rather than inference speed. Multi-worker 
 - Add caching for repeated queries
 - Optimize model format (ONNX / quantization)
 - Evaluate performance under higher concurrency
+
+## Batch Inference Results
+
+### Example (Batch Size = 3)
+
+- Total latency: 22.27 ms
+- Per-item latency: ~7.4 ms
+
+### Analysis
+
+- Batching significantly reduces per-item inference cost
+- Model computation is shared across multiple inputs
+- Efficiency improves as batch size increases (up to a limit)
+
+### Conclusion
+
+Batching is an effective optimization for improving throughput and reducing compute cost per request.
+
+### Trade-off
+
+- Larger batches improve efficiency
+- But may increase waiting time for individual requests
+
+This introduces a latency vs throughput trade-off.
+
+## Caching Results
+
+### Observations
+
+- First request incurred significant latency (~16 seconds) due to cold start and model loading.
+- Subsequent identical requests were served from cache with ~4–5 ms latency.
+- Cache hit rate reached 100% after warm-up.
+
+### Performance Impact
+
+- Latency reduced from seconds to milliseconds
+- Near-zero inference time for repeated inputs
+- Stable and consistent response times
+
+### Conclusion
+
+Caching is highly effective for repeated queries, eliminating redundant computation and significantly improving system performance.

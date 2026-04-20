@@ -11,6 +11,7 @@ class EmbeddingResponse(BaseModel):
     dimension: int
     model_name: str
     inference_time_ms: float
+    cache_hit: bool
 
 
 class BatchEmbeddingRequest(BaseModel):
@@ -23,3 +24,4 @@ class BatchEmbeddingResponse(BaseModel):
     dimension: int
     model_name: str
     inference_time_ms: float
+    cache_hits: int
