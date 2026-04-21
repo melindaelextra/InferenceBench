@@ -163,3 +163,37 @@ This introduces a latency vs throughput trade-off.
 ### Conclusion
 
 Caching is highly effective for repeated queries, eliminating redundant computation and significantly improving system performance.
+
+## PyTorch vs ONNX Comparison
+
+### Results
+
+#### PyTorch
+- Average latency: 149.32 ms
+- P50 latency: 4.87 ms
+- P95 latency: 9.89 ms
+- Min latency: 3.80 ms
+- Max latency: 4317.82 ms
+
+#### ONNX
+- Average latency: 20.92 ms
+- P50 latency: 8.43 ms
+- P95 latency: 22.22 ms
+- Min latency: 7.73 ms
+- Max latency: 330.30 ms
+
+### Analysis
+
+The average latency for both runtimes was heavily affected by first-request initialization overhead. More representative steady-state metrics are P50 and P95.
+
+In steady-state inference, the PyTorch path outperformed the ONNX path in this setup:
+- PyTorch P50: 4.87 ms vs ONNX P50: 8.43 ms
+- PyTorch P95: 9.89 ms vs ONNX P95: 22.22 ms
+
+However, PyTorch showed a much larger startup outlier:
+- PyTorch max: 4317.82 ms
+- ONNX max: 330.30 ms
+
+### Conclusion
+
+In this local CPU environment, PyTorch provided better warm-request latency, while ONNX showed more stable initialization behavior. This demonstrates that runtime optimization should be validated empirically rather than assumed.
