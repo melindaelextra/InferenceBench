@@ -93,6 +93,26 @@ The goal is not just implementation, but **measuring trade-offs and validating p
 ### Cold vs Cached Request
 ![Cache Comparison](docs/cache_comparison.png)
 
+## 🚀 Redis Shared Cache
+
+### Motivation
+The initial caching system was implemented using in-memory storage, which caused cache fragmentation in a multi-worker setup. Each worker maintained its own cache, resulting in repeated computations for identical inputs.
+
+### Implementation
+A Redis-based shared cache was introduced to allow all workers to access a centralized cache. Embeddings are stored using the input text as the key, enabling reuse across requests and workers.
+
+### Results
+- Cache hits: 18 / 20 requests  
+- Cached request latency: ~7–12 ms  
+- Significant reduction in repeated computation  
+
+### Analysis
+Redis successfully enabled consistent cache hits across workers. However, some high-latency outliers remained due to per-worker model initialization, as each worker still loads the model independently.
+
+### Conclusion
+Redis eliminated cache fragmentation in a multi-worker environment and improved the production readiness of the system, while highlighting the remaining cost of per-worker model loading.
+
+
 ## 🧠 Key Learnings
 
 - Performance optimization must be **measured, not assumed**

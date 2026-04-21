@@ -197,3 +197,19 @@ However, PyTorch showed a much larger startup outlier:
 ### Conclusion
 
 In this local CPU environment, PyTorch provided better warm-request latency, while ONNX showed more stable initialization behavior. This demonstrates that runtime optimization should be validated empirically rather than assumed.
+
+## Redis Shared Cache Results
+
+### Results
+- Requests: 20
+- Cache hits: 18
+- Average latency: 610.20 ms
+- P50 latency: 9.26 ms
+- Min latency: 6.89 ms
+- Max latency: 6056.56 ms
+
+### Analysis
+Redis successfully enabled shared caching across multiple workers. Most repeated requests were served from cache, with latency around 7–12 ms. Two large latency spikes remained because separate workers still needed to load the embedding model on their first request.
+
+### Conclusion
+Redis solved the multi-worker cache fragmentation problem, but model initialization remains per-worker. This highlights the difference between shared caching and shared model state.
