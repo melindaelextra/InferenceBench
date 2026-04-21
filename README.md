@@ -76,6 +76,23 @@ The goal is not just implementation, but **measuring trade-offs and validating p
 
 ---
 
+## 📈 Performance Visualizations
+
+### Warm-up Optimization
+![Warm-up Comparison](docs/warmup_comparison.png)
+
+### Multi-worker Throughput
+![Throughput Comparison](docs/throughput_comparison.png)
+
+### Multi-worker P95 Latency
+![Multi-worker P95](docs/multiworker_p95.png)
+
+### PyTorch vs ONNX
+![PyTorch vs ONNX](docs/onnx_vs_pytorch.png)
+
+### Cold vs Cached Request
+![Cache Comparison](docs/cache_comparison.png)
+
 ## 🧠 Key Learnings
 
 - Performance optimization must be **measured, not assumed**
@@ -142,6 +159,13 @@ python models/export_onnx.py
 
 
 ---
+
+## Limitations
+
+- In-memory caching does not work across multiple workers
+- ONNX was not faster than warm PyTorch in this local CPU setup
+- The system is local only and not yet deployed to distributed infrastructure
+- The ONNX model must be generated locally because large model files are not stored in the repo
 
 ## 📈 Future Improvements
 
