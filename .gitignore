@@ -1,5 +1,13 @@
+# Virtual environments
+.venv/
+.venv-1/
+
+# Python
 __pycache__/
 *.pyc
+
+# Environment variables
 .env
-.venv/
-.pytest_cache/
+
+# Model files
+models/onnx_model/model.onnx
